@@ -1,10 +1,10 @@
-input sys, re
+import sys, re
 from random import randint
 
 # Higher index = more frequently used word
 alphabet = "qjzxvkwyfbghmpduclsntoirae"
 
-score(word):
+def score(word):
     ### Lower scores are less frequent words.
     ### Words don't benefit from repeating letters
     score = 0
@@ -16,17 +16,17 @@ score(word):
     return (word, score)
     
 
-rank(words):
-    return [score(word) for word in words].sort(reverse=True, key=lambda x: x[1])[::-1]
+def rank(words):
+    return sorted([score(word) for word in words], reverse=True, key=lambda x: x[1])
     #Rank a list of words by the popularity of the letters in them
     
 
-word_matches(pattern,word):
-    return re.compile(pattern).match(word) is not None
+def word_matches(pattern,word):
+    return bool(re.match(pattern, word))
     
 
-has_found_letters(found_letters, word):
-    return len([l in found_letters, l in word)]) == len(found_letters)
+def has_found_letters(found_letters, word):
+    return len([l for l in found_letters if l in word]) == len(found_letters)
 
 
 if __name__=="__main__":
@@ -40,20 +40,22 @@ if __name__=="__main__":
         print("Excluded Letters:\t{}\n".format(",".join(excluded_letters)))
         exc = "[^{}]".format("".join(excluded_letters))
         if len(excluded_letters)>0:
-            filter = solution.replace(".",exc)
+            f = solution.replace(".",exc)
         else:
-            filter = solution
-        top_matching_words = rank_words([w for w in wordlist, word_matches(filter,w) and has_found_letters(found_letters,w)][:10])
+            f = solution
+        top_matching_words = rank([w for w in wordlist if word_matches(f,w) and has_found_letters(found_letters,w)])[:10]
         print("Suggested Guesses:")
         for tmw in top_matching_words:
             print(tmw)
         guess = input("Input your Guess: ")
-        result = input("What was the result?:\n(x for letter not found,\nG for green\nY for yellow")
+        result = input("What was the result?\n(x for letter not found,\nG for green\nY for yellow): ")
         for i in range(5):
             g = guess[i]
             r = result[i]
             if r == "G":
-                solution[i] = g
+                lsolution = list(solution)
+                lsolution[i] = g
+                solution = "".join(lsolution)
             if r == "Y":
                 found_letters.append(g)
             if r == "x":
