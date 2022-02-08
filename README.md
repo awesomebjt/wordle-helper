@@ -32,6 +32,7 @@ Suggested Guesses:
 ('tares', 110)
 Input your Guess:
 ```
+The numbers next to the words indicate a rough score based on the frequency of the letters in the words. This is based on a survey of dictionary word frequency I found via Wikipedia. The script includes the English alphabet in lower case, ordered by the frequency of the letters. The least frequent letter, Q, has a score of zero and E has a score of 25. These numbers are added together to make the word's score. So this only scores the words based on dictionary frequency of letters and not how common the word is used in everyday language.
 
 Input a guess in the Wordle game and record it at the prompt. You'll see a response like this.
 ```
