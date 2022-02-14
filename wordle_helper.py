@@ -90,5 +90,5 @@ You Have Already Tried:""".format(len(intel_words)))
                 solution[i] = g
             if r == "Y":
                 found_letters.append((g, i))
-            if r == "x":
+            if r == "x" and r not in [l[0] for l in found_letters]:
                 excluded_letters.append(g)
